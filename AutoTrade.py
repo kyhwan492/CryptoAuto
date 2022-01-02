@@ -5,6 +5,14 @@ import requests
 
 access = "xllf43mI0iHCrc95QKKX94clhV2ODO4x4CRAYawW"
 secret = "UbOb00DTj7Xp7xftVriVJgovLmXA8fLKMStz1x8u"
+myToken = "xoxb-2884330066455-2892299734742-1fNFseDTzydPbtfE9vA3apQT"
+
+def post_message(token, channel, text):
+    """슬랙 메시지 전송"""
+    response = requests.post("https://slack.com/api/chat.postMessage",
+        headers={"Authorization": "Bearer "+token},
+        data={"channel": channel,"text": text}
+    )
 
 def get_target_price(ticker, k):
     """변동성 돌파 전략으로 매수 목표가 조회"""
@@ -51,7 +59,7 @@ while True:
         end_time = start_time + datetime.timedelta(days=1)
 
         if start_time < now < end_time - datetime.timedelta(seconds=10):
-            target_price = get_target_price("KRW-BTC", 0.5)
+            target_price = get_target_price("KRW-BTC", 0.6)
             ma15 = get_ma15("KRW-BTC")
             current_price = get_current_price("KRW-BTC")
             if target_price < current_price and ma15 < current_price:
